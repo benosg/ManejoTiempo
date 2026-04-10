@@ -25,7 +25,7 @@ export const App = () => {
       <AppShell>
         <div className="mb-6">
           <p className="text-sm text-slate-600">
-            Registro simple para visibilidad de la carga real. Diseñado para apoyar al equipo, no para fiscalizar.
+            Registra tu jornada en pocos pasos y mantén tus avances al día.
           </p>
         </div>
 
