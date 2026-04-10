@@ -36,6 +36,8 @@ const buildInitial = (editing?: TimeEntry | null): FormData => ({
   planned: editing?.planned ?? true
 });
 
+const QUICK_MINUTE_PRESETS = [30, 60, 90, 120];
+
 export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
   const [form, setForm] = useState<FormData>(buildInitial(editing));
 
@@ -70,6 +72,25 @@ export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
   return (
     <Card className="space-y-5 rounded-3xl border-2 border-blue-200/80 bg-gradient-to-b from-white to-blue-50/40 p-6 shadow-[0_12px_30px_rgba(37,99,235,0.18)] md:p-8">
       <h2 className="font-[Manrope] text-xl font-extrabold text-slate-900">{editing ? "Editar actividad" : "Registrar actividad"}</h2>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Duración rápida</p>
+        {QUICK_MINUTE_PRESETS.map((minutes) => {
+          const active = form.minutes === minutes;
+          return (
+            <button
+              key={minutes}
+              type="button"
+              onClick={() => updateField("minutes", minutes)}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
+                active ? "bg-blue-600 text-white" : "bg-blue-50 text-blue-700 hover:bg-blue-100"
+              }`}
+            >
+              {minutes % 60 === 0 ? `${minutes / 60} h` : `${minutes} min`}
+            </button>
+          );
+        })}
+      </div>
 
       <div className="grid gap-2 md:grid-cols-5">
         <input

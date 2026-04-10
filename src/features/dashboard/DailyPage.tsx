@@ -63,7 +63,7 @@ export const DailyPage = ({ userId }: Props) => {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "r") {
+      if (event.altKey && event.key.toLowerCase() === "r") {
         event.preventDefault();
         void (async () => {
           const created = await repeatPreviousDay(selectedDate);
@@ -235,7 +235,7 @@ export const DailyPage = ({ userId }: Props) => {
             <p className="text-slate-600">
               Llevas {minutesToHoursLabel(totalMinutes)} de {minutesToHoursLabel(expectedMinutes)} registradas hoy
             </p>
-            <p className="text-xs text-slate-400">Atajo rápido: Ctrl/Cmd + R para repetir ayer.</p>
+            <p className="text-xs text-slate-400">Atajo rápido: Alt + R para repetir ayer.</p>
           </div>
           <div className="text-right">
             <p className="font-[Manrope] text-5xl font-extrabold text-blue-700">{progressPercent}%</p>
@@ -293,7 +293,7 @@ export const DailyPage = ({ userId }: Props) => {
 
       <Card className="space-y-3 rounded-2xl bg-blue-100/70">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="font-[Manrope] text-lg font-bold text-slate-800">Filtrar actividades</p>
+          <p className="font-[Manrope] text-lg font-bold text-slate-800">Filtrar registros</p>
           <button
             type="button"
             onClick={() => {
@@ -345,7 +345,7 @@ export const DailyPage = ({ userId }: Props) => {
         onTogglePlanned={handleTogglePlanned}
         onDelete={handleDelete}
       />
-      <p className="text-xs text-slate-500">Mostrando {filteredEntries.length} de {entries.length} actividades del día.</p>
+      <p className="text-xs text-slate-500">Mostrando {filteredEntries.length} de {entries.length} registros del día.</p>
     </div>
   );
 };

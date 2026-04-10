@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 import { useTimeEntries } from "../../hooks/useTimeEntries";
+import { services } from "../../services/container";
+import type { ShiftType } from "../../models";
 import { addDays, shortDayName, startOfWeekMonday, toIsoDate, weekDays } from "../../utils/date";
 import { expectedMinutesForDay } from "../../utils/schedule";
 import { minutesToHoursLabel, sumMinutes } from "../../utils/summaries";
@@ -10,11 +12,33 @@ type Props = { userId: string };
 
 export const WeeklyPage = ({ userId }: Props) => {
   const [weekStart, setWeekStart] = useState<Date>(startOfWeekMonday(new Date()));
+  const [dayContext, setDayContext] = useState<Record<string, { mode: "normal" | "turno"; shiftType?: ShiftType; isHolidayOrWeekend: boolean }>>({});
   const { weekEntries, loadWeek } = useTimeEntries(userId);
 
   useEffect(() => {
     void loadWeek(toIsoDate(weekStart));
   }, [loadWeek, weekStart]);
+
+  useEffect(() => {
+    const loadWeekContext = async () => {
+      const days = weekDays(weekStart);
+      const contextEntries = await Promise.all(
+        days.map(async (day) => {
+          const dateIso = toIsoDate(day);
+          const [config, holiday] = await Promise.all([
+            services.workDayConfig.getConfig(userId, dateIso),
+            services.holidays.getHoliday("CL", dateIso)
+          ]);
+          const isHolidayOrWeekend = Boolean(holiday) || [0, 6].includes(day.getDay());
+          return [dateIso, { mode: config.mode, shiftType: config.shiftType, isHolidayOrWeekend }] as const;
+        })
+      );
+
+      setDayContext(Object.fromEntries(contextEntries));
+    };
+
+    void loadWeekContext();
+  }, [userId, weekStart]);
 
   const days = useMemo(() => weekDays(weekStart), [weekStart]);
   const totalWeek = sumMinutes(weekEntries);
@@ -23,7 +47,13 @@ export const WeeklyPage = ({ userId }: Props) => {
     const dateIso = toIsoDate(day);
     const dayEntries = weekEntries.filter((entry) => entry.date === dateIso);
     const total = sumMinutes(dayEntries);
-    const expected = expectedMinutesForDay(dateIso, "normal", undefined, [0, 6].includes(day.getDay()));
+    const context = dayContext[dateIso];
+    const expected = expectedMinutesForDay(
+      dateIso,
+      context?.mode ?? "normal",
+      context?.shiftType,
+      context?.isHolidayOrWeekend ?? [0, 6].includes(day.getDay())
+    );
     return { dateIso, dayName: shortDayName(day), total, expected };
   });
 

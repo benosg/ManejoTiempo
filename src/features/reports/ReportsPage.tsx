@@ -36,6 +36,7 @@ export const ReportsPage = ({ userId }: Props) => {
       <Card className="space-y-2 rounded-3xl p-6 md:p-8">
         <h2 className="font-[Manrope] text-3xl font-extrabold text-slate-900">Reportes de carga</h2>
         <p className="text-sm text-slate-600">Distribución de tiempo para priorización, capacidad y mejora continua.</p>
+        <p className="text-xs text-slate-500">Estos reportes son para visibilidad y planificación, no para fiscalización.</p>
         <p className="text-sm font-semibold text-slate-700">Total semanal: {minutesToHoursLabel(sumMinutes(weekEntries))}</p>
       </Card>
 
