@@ -176,6 +176,12 @@ export const DailyPage = ({ userId }: Props) => {
     setNotice({ message: "Registro duplicado", tone: "success" });
   };
 
+  const handleStartEdit = (entry: TimeEntry) => {
+    setEditing(entry);
+    formSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setNotice({ message: "Editando registro seleccionado", tone: "info" });
+  };
+
   const handleDelete = async (entry: TimeEntry) => {
     await deleteEntry(entry.id);
     await refreshDay();
@@ -339,7 +345,7 @@ export const DailyPage = ({ userId }: Props) => {
 
       <TimeEntryList
         entries={filteredEntries}
-        onEdit={setEditing}
+        onEdit={handleStartEdit}
         onDuplicate={handleDuplicate}
         onAdjustMinutes={handleAdjustMinutes}
         onTogglePlanned={handleTogglePlanned}
