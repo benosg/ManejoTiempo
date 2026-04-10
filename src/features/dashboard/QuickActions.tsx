@@ -22,13 +22,13 @@ export const QuickActions = ({
     mode === "turno"
       ? shiftType === "tarde"
         ? "Turno tarde 14:00-21:00"
-        : "Turno manana 08:30-17:00"
+        : "Turno mañana 08:30-17:00"
       : "Horario normal";
 
   return (
     <Card className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm font-semibold text-slate-700">Modalidad del dia:</span>
+        <span className="text-sm font-semibold text-slate-700">Modalidad del día:</span>
         <Badge tone={mode === "turno" ? "warning" : "default"}>{modeLabel}</Badge>
         <span className="text-xs text-slate-500">Asignado por jefatura (solo lectura)</span>
       </div>
@@ -40,7 +40,7 @@ export const QuickActions = ({
       </div>
 
       <div className="space-y-2">
-        <p className="text-sm font-semibold text-slate-700">Sugerencias rapidas</p>
+        <p className="text-sm font-semibold text-slate-700">Sugerencias rápidas</p>
         <div className="flex flex-wrap gap-2">
           {suggestions.map((item) => (
             <Button

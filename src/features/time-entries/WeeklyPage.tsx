@@ -33,7 +33,7 @@ export const WeeklyPage = ({ userId }: Props) => {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="font-[Manrope] text-3xl font-extrabold text-slate-900">Resumen semanal</h2>
-            <p className="text-sm text-slate-600">Visibilidad de carga por dia para planificar con datos reales.</p>
+            <p className="text-sm text-slate-600">Visibilidad de carga por día para planificar con datos reales.</p>
           </div>
           <div className="flex gap-2">
             <Button variant="secondary" onClick={() => setWeekStart((prev) => addDays(prev, -7))}>
@@ -65,7 +65,7 @@ export const WeeklyPage = ({ userId }: Props) => {
           <table className="mt-2 w-full min-w-[520px] text-left text-sm">
             <thead>
               <tr className="border-b border-blue-100 text-slate-500">
-                <th className="py-2">Dia</th>
+                <th className="py-2">Día</th>
                 <th className="py-2">Fecha</th>
                 <th className="py-2">Registrado</th>
                 <th className="py-2">Esperado</th>

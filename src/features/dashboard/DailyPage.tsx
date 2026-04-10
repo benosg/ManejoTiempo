@@ -72,7 +72,7 @@ export const DailyPage = ({ userId }: Props) => {
             setNotice({ message: `Se copiaron ${created} registros de ayer`, tone: "success" });
             return;
           }
-          setNotice({ message: "No hay registros en el dia anterior", tone: "info" });
+          setNotice({ message: "No hay registros en el día anterior", tone: "info" });
         })();
       }
     };
@@ -146,7 +146,7 @@ export const DailyPage = ({ userId }: Props) => {
       setNotice({ message: `Se copiaron ${created} registros de ayer`, tone: "success" });
       return;
     }
-    setNotice({ message: "No hay registros en el dia anterior", tone: "info" });
+    setNotice({ message: "No hay registros en el día anterior", tone: "info" });
   };
 
   const handleAdjustMinutes = async (entry: TimeEntry, delta: number) => {
@@ -205,11 +205,11 @@ export const DailyPage = ({ userId }: Props) => {
 
   const statusBadge =
     status === "completo"
-      ? { label: "Dia completo", tone: "success" as const }
+      ? { label: "Día completo", tone: "success" as const }
       : status === "incompleto"
-      ? { label: "Dia incompleto", tone: "warning" as const }
+      ? { label: "Día incompleto", tone: "warning" as const }
       : status === "inhabil"
-      ? { label: "Dia inhabil", tone: "default" as const }
+      ? { label: "Día inhábil", tone: "default" as const }
       : { label: "Exceso de horas", tone: "danger" as const };
 
   const progressPercent =
@@ -218,10 +218,10 @@ export const DailyPage = ({ userId }: Props) => {
     status === "completo"
       ? "Buen trabajo. Cerraste tu jornada esperada."
       : status === "incompleto"
-      ? "Vas bien. Te faltan pocos minutos para completar el dia."
+      ? "Vas bien. Te faltan pocos minutos para completar el día."
       : status === "inhabil"
-      ? "Dia inhabil. Si trabajas, quedara registrado como excepcion."
-      : "Llevas mas horas que la jornada esperada de hoy.";
+      ? "Día inhábil. Si trabajas, quedará registrado como excepción."
+      : "Llevas más horas que la jornada esperada de hoy.";
 
   return (
     <div className="space-y-4">
@@ -235,7 +235,7 @@ export const DailyPage = ({ userId }: Props) => {
             <p className="text-slate-600">
               Llevas {minutesToHoursLabel(totalMinutes)} de {minutesToHoursLabel(expectedMinutes)} registradas hoy
             </p>
-            <p className="text-xs text-slate-400">Atajo rapido: Ctrl/Cmd + R para repetir ayer.</p>
+            <p className="text-xs text-slate-400">Atajo rápido: Ctrl/Cmd + R para repetir ayer.</p>
           </div>
           <div className="text-right">
             <p className="font-[Manrope] text-5xl font-extrabold text-blue-700">{progressPercent}%</p>
@@ -277,7 +277,7 @@ export const DailyPage = ({ userId }: Props) => {
       </Card>
 
       <div ref={formSectionRef} className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-        <h3 className="font-[Manrope] text-2xl font-extrabold text-slate-900">Registro rapido</h3>
+        <h3 className="font-[Manrope] text-2xl font-extrabold text-slate-900">Registro rápido</h3>
         <p className="text-sm text-slate-600">Completa tu actividad en pocos pasos.</p>
       </div>
 
@@ -311,7 +311,7 @@ export const DailyPage = ({ userId }: Props) => {
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value as ActivityCategory | "all")}
           >
-            <option value="all">Todas las categorias</option>
+            <option value="all">Todas las categorías</option>
             {ACTIVITY_CATEGORIES.map((category) => (
               <option key={category} value={category}>
                 {category}
@@ -345,7 +345,7 @@ export const DailyPage = ({ userId }: Props) => {
         onTogglePlanned={handleTogglePlanned}
         onDelete={handleDelete}
       />
-      <p className="text-xs text-slate-500">Mostrando {filteredEntries.length} de {entries.length} actividades del dia.</p>
+      <p className="text-xs text-slate-500">Mostrando {filteredEntries.length} de {entries.length} actividades del día.</p>
     </div>
   );
 };

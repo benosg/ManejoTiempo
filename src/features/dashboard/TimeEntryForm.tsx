@@ -150,7 +150,7 @@ export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
           </Button>
         )}
       </div>
-      <p className="text-xs text-slate-500">Atajo: Ctrl/Cmd + Enter para guardar rapido. Duracion en minutos.</p>
+      <p className="text-xs text-slate-500">Atajo: Ctrl/Cmd + Enter para guardar rápido. Duración en minutos.</p>
     </Card>
   );
 };

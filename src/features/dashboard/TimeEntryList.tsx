@@ -30,7 +30,7 @@ export const TimeEntryList = ({ entries, onEdit, onDelete, onDuplicate, onAdjust
     return (
       <EmptyState
         title="Sin registros hoy"
-        description="Agrega una actividad o usa sugerencias para completar el dia rapidamente."
+        description="Agrega una actividad o usa sugerencias para completar el día rápidamente."
       />
     );
   }
@@ -51,7 +51,7 @@ export const TimeEntryList = ({ entries, onEdit, onDelete, onDuplicate, onAdjust
           <div className="flex flex-wrap items-center justify-end gap-2">
             <div className="mr-2 text-right">
               <p className="font-[Manrope] text-xl font-extrabold text-blue-700">{minutesToHoursLabel(entry.minutes)}</p>
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">duracion</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">duración</p>
             </div>
             <Badge tone={entry.planned ? "success" : "warning"}>{entry.planned ? "Planificado" : "No planificado"}</Badge>
             <Button variant="ghost" onClick={() => onAdjustMinutes(entry, -15)}>
