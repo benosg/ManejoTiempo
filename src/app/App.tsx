@@ -16,7 +16,7 @@ export const App = () => {
           <div className="font-[Manrope] text-xl font-extrabold tracking-tight text-slate-900">ManejoTiempo</div>
           <NavTabs tab={tab} onChange={setTab} />
           <div className="flex items-center gap-3 text-slate-500">
-            <span className="hidden text-xs font-medium md:inline">Equipo Desarrollo</span>
+            <span className="hidden text-xs font-medium md:inline">Equipo de desarrollo</span>
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">BR</div>
           </div>
         </div>
@@ -25,7 +25,7 @@ export const App = () => {
       <AppShell>
         <div className="mb-6">
           <p className="text-sm text-slate-600">
-            Registro simple para visibilidad de carga real. Diseñado para apoyar al equipo.
+            Registro simple para visibilidad de la carga real. Diseñado para apoyar al equipo, no para fiscalizar.
           </p>
         </div>
 

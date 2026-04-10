@@ -216,12 +216,12 @@ export const DailyPage = ({ userId }: Props) => {
     expectedMinutes <= 0 ? (totalMinutes > 0 ? 100 : 0) : Math.max(0, Math.min(100, Math.round((totalMinutes / expectedMinutes) * 100)));
   const progressMessage =
     status === "completo"
-      ? "Buen trabajo. Cerraste tu jornada esperada."
+      ? "Buen avance. Ya cumpliste tu jornada referencial."
       : status === "incompleto"
       ? "Vas bien. Te faltan pocos minutos para completar el día."
       : status === "inhabil"
       ? "Día inhábil. Si trabajas, quedará registrado como excepción."
-      : "Llevas más horas que la jornada esperada de hoy.";
+      : "Hoy llevas más horas que la jornada referencial.";
 
   return (
     <div className="space-y-4">
