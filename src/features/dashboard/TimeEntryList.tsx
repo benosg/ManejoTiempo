@@ -9,6 +9,7 @@ import { minutesToHoursLabel } from "../../utils/summaries";
 
 type Props = {
   entries: TimeEntry[];
+  editingEntryId?: string;
   onEdit: (entry: TimeEntry) => void;
   onDelete: (entry: TimeEntry) => Promise<void>;
   onDuplicate: (entry: TimeEntry) => Promise<void>;
@@ -25,7 +26,7 @@ const taskNameById = (taskId?: string): string | null => {
   return tasksMock.find((item) => item.id === taskId)?.title ?? taskId;
 };
 
-export const TimeEntryList = ({ entries, onEdit, onDelete, onDuplicate, onAdjustMinutes, onTogglePlanned }: Props) => {
+export const TimeEntryList = ({ entries, editingEntryId, onEdit, onDelete, onDuplicate, onAdjustMinutes, onTogglePlanned }: Props) => {
   if (!entries.length) {
     return (
       <EmptyState
@@ -38,7 +39,12 @@ export const TimeEntryList = ({ entries, onEdit, onDelete, onDuplicate, onAdjust
   return (
     <div className="space-y-3">
       {entries.map((entry) => (
-        <Card key={entry.id} className="flex flex-col gap-4 rounded-2xl bg-blue-50/45 p-5 md:flex-row md:items-center md:justify-between">
+        <Card
+          key={entry.id}
+          className={`flex flex-col gap-4 rounded-2xl p-5 md:flex-row md:items-center md:justify-between ${
+            editingEntryId === entry.id ? "border-2 border-blue-500 bg-blue-100/70" : "bg-blue-50/45"
+          }`}
+        >
           <div className="space-y-1">
             <p className="font-[Manrope] text-lg font-bold text-slate-900">
               {entry.category}
@@ -53,6 +59,7 @@ export const TimeEntryList = ({ entries, onEdit, onDelete, onDuplicate, onAdjust
               <p className="font-[Manrope] text-xl font-extrabold text-blue-700">{minutesToHoursLabel(entry.minutes)}</p>
               <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">duración</p>
             </div>
+            {editingEntryId === entry.id && <Badge tone="default">En edición</Badge>}
             <Badge tone={entry.planned ? "success" : "warning"}>{entry.planned ? "Trabajo planificado" : "Trabajo no planificado"}</Badge>
             <Button variant="ghost" onClick={() => onAdjustMinutes(entry, -15)}>
               -15m

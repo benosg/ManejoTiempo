@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Toast } from "../../components/common/Toast";
 import { StatPill } from "../../components/common/StatPill";
 import { Badge } from "../../components/ui/Badge";
+import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { useTimeEntries } from "../../hooks/useTimeEntries";
 import { projectsMock } from "../../mocks/projects.mock";
@@ -179,7 +180,7 @@ export const DailyPage = ({ userId }: Props) => {
   const handleStartEdit = (entry: TimeEntry) => {
     setEditing(entry);
     formSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setNotice({ message: "Editando registro seleccionado", tone: "info" });
+    setNotice({ message: "Modo edición activado", tone: "info" });
   };
 
   const handleDelete = async (entry: TimeEntry) => {
@@ -228,6 +229,8 @@ export const DailyPage = ({ userId }: Props) => {
       : status === "inhabil"
       ? "Día inhábil. Si trabajas, quedará registrado como excepción."
       : "Hoy llevas más horas que la jornada referencial.";
+
+  const editingProjectName = editing ? projectsMock.find((project) => project.id === editing.projectId)?.name ?? editing.projectId : "";
 
   return (
     <div className="space-y-4">
@@ -287,6 +290,21 @@ export const DailyPage = ({ userId }: Props) => {
         <p className="text-sm text-slate-600">Completa tu registro en pocos pasos.</p>
       </div>
 
+      {editing && (
+        <Card className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-blue-400 bg-blue-50 p-4">
+          <div className="space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Modo edición</p>
+            <p className="font-[Manrope] text-lg font-bold text-slate-900">Estás editando un registro</p>
+            <p className="text-sm text-slate-600">
+              {editing.category} - {editingProjectName} - {minutesToHoursLabel(editing.minutes)}
+            </p>
+          </div>
+          <Button variant="ghost" onClick={() => setEditing(null)}>
+            Cancelar edición
+          </Button>
+        </Card>
+      )}
+
       <TimeEntryForm editing={editing} onSave={handleSave} onCancelEdit={() => setEditing(null)} />
 
       <QuickActions
@@ -345,6 +363,7 @@ export const DailyPage = ({ userId }: Props) => {
 
       <TimeEntryList
         entries={filteredEntries}
+        editingEntryId={editing?.id}
         onEdit={handleStartEdit}
         onDuplicate={handleDuplicate}
         onAdjustMinutes={handleAdjustMinutes}
