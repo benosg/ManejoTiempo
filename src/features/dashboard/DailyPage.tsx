@@ -158,7 +158,7 @@ export const DailyPage = ({ userId }: Props) => {
   const handleTogglePlanned = async (entry: TimeEntry) => {
     await updateEntry(entry.id, { planned: !entry.planned });
     await refreshDay();
-    setNotice({ message: !entry.planned ? "Marcado como planificado" : "Marcado como no planificado", tone: "info" });
+    setNotice({ message: !entry.planned ? "Marcado como trabajo planificado" : "Marcado como trabajo no planificado", tone: "info" });
   };
 
   const handleDuplicate = async (entry: TimeEntry) => {
@@ -278,7 +278,7 @@ export const DailyPage = ({ userId }: Props) => {
 
       <div ref={formSectionRef} className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
         <h3 className="font-[Manrope] text-2xl font-extrabold text-slate-900">Registro rápido</h3>
-        <p className="text-sm text-slate-600">Completa tu actividad en pocos pasos.</p>
+        <p className="text-sm text-slate-600">Completa tu registro en pocos pasos.</p>
       </div>
 
       <TimeEntryForm editing={editing} onSave={handleSave} onCancelEdit={() => setEditing(null)} />
@@ -334,7 +334,7 @@ export const DailyPage = ({ userId }: Props) => {
       </Card>
 
       <div>
-        <h3 className="font-[Manrope] text-2xl font-extrabold text-slate-900">Actividades de hoy</h3>
+        <h3 className="font-[Manrope] text-2xl font-extrabold text-slate-900">Registros de hoy</h3>
       </div>
 
       <TimeEntryList

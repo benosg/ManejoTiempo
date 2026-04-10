@@ -40,7 +40,7 @@ export const ReportsPage = ({ userId }: Props) => {
       </Card>
 
       <Card className="space-y-3 rounded-2xl bg-blue-50/55 p-5">
-        <h3 className="font-[Manrope] text-xl font-bold text-slate-800">Horas por categoria</h3>
+        <h3 className="font-[Manrope] text-xl font-bold text-slate-800">Horas por categoría</h3>
         <BarChart rows={byCategory} />
       </Card>
 
@@ -51,11 +51,11 @@ export const ReportsPage = ({ userId }: Props) => {
 
       <Card className="grid gap-2 rounded-2xl bg-white p-5 md:grid-cols-2">
         <div className="rounded-xl bg-emerald-50 p-4">
-          <p className="text-xs text-emerald-700">Planificado</p>
+          <p className="text-xs text-emerald-700">Trabajo planificado</p>
           <p className="font-[Manrope] text-3xl font-extrabold text-emerald-700">{minutesToHoursLabel(plannedMinutes)}</p>
         </div>
         <div className="rounded-xl bg-amber-50 p-4">
-          <p className="text-xs text-amber-700">No planificado</p>
+          <p className="text-xs text-amber-700">Trabajo no planificado</p>
           <p className="font-[Manrope] text-3xl font-extrabold text-amber-700">{minutesToHoursLabel(unplannedMinutes)}</p>
         </div>
       </Card>
