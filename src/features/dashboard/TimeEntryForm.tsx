@@ -68,22 +68,23 @@ export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
   };
 
   return (
-    <Card className="space-y-3">
-      <h2 className="text-sm font-semibold text-slate-700">{editing ? "Editar registro" : "Nuevo registro"}</h2>
+    <Card className="space-y-5 rounded-3xl border-2 border-blue-200/80 bg-gradient-to-b from-white to-blue-50/40 p-6 shadow-[0_12px_30px_rgba(37,99,235,0.18)] md:p-8">
+      <h2 className="font-[Manrope] text-xl font-extrabold text-slate-900">{editing ? "Editar actividad" : "Registrar actividad"}</h2>
 
       <div className="grid gap-2 md:grid-cols-5">
         <input
-          className="rounded-xl border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-xl border border-blue-100 px-3 py-2.5 text-sm shadow-sm outline-none ring-blue-300 focus:ring-2"
           type="number"
           min={15}
           max={720}
           step={15}
           value={form.minutes}
           onChange={(e) => updateField("minutes", Number(e.target.value))}
+          aria-label="Minutos"
         />
 
         <select
-          className="rounded-xl border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-xl border border-blue-100 px-3 py-2.5 text-sm shadow-sm outline-none ring-blue-300 focus:ring-2"
           value={form.category}
           onChange={(e) => updateField("category", e.target.value as ActivityCategory)}
         >
@@ -95,7 +96,7 @@ export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
         </select>
 
         <select
-          className="rounded-xl border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-xl border border-blue-100 px-3 py-2.5 text-sm shadow-sm outline-none ring-blue-300 focus:ring-2"
           value={form.projectId}
           onChange={(e) => updateField("projectId", e.target.value)}
         >
@@ -107,7 +108,7 @@ export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
         </select>
 
         <select
-          className="rounded-xl border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-xl border border-blue-100 px-3 py-2.5 text-sm shadow-sm outline-none ring-blue-300 focus:ring-2"
           value={form.taskId}
           onChange={(e) => updateField("taskId", e.target.value)}
         >
@@ -119,14 +120,14 @@ export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
           ))}
         </select>
 
-        <label className="flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 rounded-xl border border-blue-100 px-3 py-2.5 text-sm text-slate-700 shadow-sm">
           <input type="checkbox" checked={form.planned} onChange={(e) => updateField("planned", e.target.checked)} />
           Planificado
         </label>
       </div>
 
       <input
-        className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
+        className="w-full rounded-xl border border-blue-100 px-3 py-2.5 text-sm shadow-sm outline-none ring-blue-300 focus:ring-2"
         placeholder="Comentario breve (opcional)"
         maxLength={140}
         value={form.comment}
@@ -139,15 +140,17 @@ export const TimeEntryForm = ({ editing, onSave, onCancelEdit }: Props) => {
         }}
       />
 
-      <div className="flex gap-2">
-        <Button onClick={onSubmit}>{editing ? "Guardar" : "Agregar"}</Button>
+      <div className="flex flex-wrap gap-2">
+        <Button className="w-full rounded-full py-3 text-base md:w-auto md:min-w-56" onClick={onSubmit}>
+          {editing ? "Guardar cambios" : "Registrar actividad"}
+        </Button>
         {editing && (
           <Button variant="ghost" onClick={onCancelEdit}>
             Cancelar
           </Button>
         )}
       </div>
-      <p className="text-xs text-slate-500">Atajo: Ctrl/Cmd + Enter para guardar rapido.</p>
+      <p className="text-xs text-slate-500">Atajo: Ctrl/Cmd + Enter para guardar rapido. Duracion en minutos.</p>
     </Card>
   );
 };

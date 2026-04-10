@@ -36,19 +36,23 @@ export const TimeEntryList = ({ entries, onEdit, onDelete, onDuplicate, onAdjust
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {entries.map((entry) => (
-        <Card key={entry.id} className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <Card key={entry.id} className="flex flex-col gap-4 rounded-2xl bg-blue-50/45 p-5 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
-            <p className="text-sm font-semibold text-slate-800">
-              {entry.category} - {minutesToHoursLabel(entry.minutes)}
+            <p className="font-[Manrope] text-lg font-bold text-slate-900">
+              {entry.category}
             </p>
-            <p className="text-sm text-slate-600">{projectNameById(entry.projectId)}</p>
+            <p className="text-sm font-medium text-slate-700">{projectNameById(entry.projectId)}</p>
             {taskNameById(entry.taskId) && <p className="text-xs text-slate-500">{taskNameById(entry.taskId)}</p>}
             {entry.comment && <p className="text-xs text-slate-500">{entry.comment}</p>}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <div className="mr-2 text-right">
+              <p className="font-[Manrope] text-xl font-extrabold text-blue-700">{minutesToHoursLabel(entry.minutes)}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">duracion</p>
+            </div>
             <Badge tone={entry.planned ? "success" : "warning"}>{entry.planned ? "Planificado" : "No planificado"}</Badge>
             <Button variant="ghost" onClick={() => onAdjustMinutes(entry, -15)}>
               -15m

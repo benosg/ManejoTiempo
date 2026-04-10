@@ -10,20 +10,29 @@ export const App = () => {
   const [tab, setTab] = useState<AppTab>("diario");
 
   return (
-    <AppShell>
-      <div className="mb-4 space-y-3">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Time Visibility MVP</h1>
+    <>
+      <nav className="fixed left-0 right-0 top-0 z-40 border-b border-blue-100 bg-white/75 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
+          <div className="font-[Manrope] text-xl font-extrabold tracking-tight text-slate-900">ManejoTiempo</div>
+          <NavTabs tab={tab} onChange={setTab} />
+          <div className="flex items-center gap-3 text-slate-500">
+            <span className="hidden text-xs font-medium md:inline">Equipo Desarrollo</span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">BR</div>
+          </div>
+        </div>
+      </nav>
+
+      <AppShell>
+        <div className="mb-6">
           <p className="text-sm text-slate-600">
-            El sistema ayuda a entender la carga de trabajo real del equipo, no se transforma en una herramienta de vigilancia.
+            Registro simple para visibilidad de carga real. Diseñado para apoyar al equipo.
           </p>
         </div>
-        <NavTabs tab={tab} onChange={setTab} />
-      </div>
 
-      {tab === "diario" && <DailyPage userId={currentUserId} />}
-      {tab === "semanal" && <WeeklyPage userId={currentUserId} />}
-      {tab === "reportes" && <ReportsPage userId={currentUserId} />}
-    </AppShell>
+        {tab === "diario" && <DailyPage userId={currentUserId} />}
+        {tab === "semanal" && <WeeklyPage userId={currentUserId} />}
+        {tab === "reportes" && <ReportsPage userId={currentUserId} />}
+      </AppShell>
+    </>
   );
 };

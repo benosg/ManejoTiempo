@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Toast } from "../../components/common/Toast";
 import { StatPill } from "../../components/common/StatPill";
 import { Badge } from "../../components/ui/Badge";
@@ -25,6 +25,7 @@ type Notice = {
 };
 
 export const DailyPage = ({ userId }: Props) => {
+  const formSectionRef = useRef<HTMLDivElement | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(toIsoDate(new Date()));
   const [editing, setEditing] = useState<TimeEntry | null>(null);
   const [holidayName, setHolidayName] = useState<string | null>(null);
@@ -211,30 +212,61 @@ export const DailyPage = ({ userId }: Props) => {
       ? { label: "Dia inhabil", tone: "default" as const }
       : { label: "Exceso de horas", tone: "danger" as const };
 
+  const progressPercent =
+    expectedMinutes <= 0 ? (totalMinutes > 0 ? 100 : 0) : Math.max(0, Math.min(100, Math.round((totalMinutes / expectedMinutes) * 100)));
+  const progressMessage =
+    status === "completo"
+      ? "Buen trabajo. Cerraste tu jornada esperada."
+      : status === "incompleto"
+      ? "Vas bien. Te faltan pocos minutos para completar el dia."
+      : status === "inhabil"
+      ? "Dia inhabil. Si trabajas, quedara registrado como excepcion."
+      : "Llevas mas horas que la jornada esperada de hoy.";
+
   return (
     <div className="space-y-4">
       {notice && (
         <Toast message={notice.message} tone={notice.tone} actionLabel={notice.actionLabel} onAction={notice.onAction} />
       )}
-      <Card className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-semibold text-slate-900">Registro diario</h2>
-            <p className="text-sm text-slate-500">Registrar el trabajo diario debe tomar muy poco tiempo.</p>
-            <p className="mt-1 text-xs text-slate-400">Atajo rapido: Ctrl/Cmd + R para repetir ayer.</p>
+      <Card className="space-y-5 rounded-3xl p-6 md:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="font-[Manrope] text-4xl font-extrabold tracking-tight text-slate-900">Hola de nuevo</h2>
+            <p className="text-slate-600">
+              Llevas {minutesToHoursLabel(totalMinutes)} de {minutesToHoursLabel(expectedMinutes)} registradas hoy
+            </p>
+            <p className="text-xs text-slate-400">Atajo rapido: Ctrl/Cmd + R para repetir ayer.</p>
           </div>
-          <input
-            className="rounded-xl border border-slate-300 px-3 py-2 text-sm"
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+          <div className="text-right">
+            <p className="font-[Manrope] text-5xl font-extrabold text-blue-700">{progressPercent}%</p>
+          </div>
+        </div>
+
+        <div className="h-3 overflow-hidden rounded-full bg-blue-100">
+          <div
+            className="h-3 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all"
+            style={{ width: `${progressPercent}%` }}
           />
         </div>
+        <p className="text-sm text-slate-600">{progressMessage}</p>
 
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone={statusBadge.tone}>{statusBadge.label}</Badge>
           {holidayName && <Badge tone="warning">Feriado CL: {holidayName}</Badge>}
           {isWeekend && <Badge>Fin de semana</Badge>}
+          <button
+            type="button"
+            className="rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
+            onClick={() => formSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          >
+            Registrar ahora
+          </button>
+          <input
+            className="ml-auto rounded-xl border border-blue-100 px-3 py-2 text-sm shadow-sm outline-none ring-blue-300 focus:ring-2"
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
         </div>
 
         <div className="grid gap-2 md:grid-cols-3">
@@ -244,6 +276,13 @@ export const DailyPage = ({ userId }: Props) => {
         </div>
       </Card>
 
+      <div ref={formSectionRef} className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+        <h3 className="font-[Manrope] text-2xl font-extrabold text-slate-900">Registro rapido</h3>
+        <p className="text-sm text-slate-600">Completa tu actividad en pocos pasos.</p>
+      </div>
+
+      <TimeEntryForm editing={editing} onSave={handleSave} onCancelEdit={() => setEditing(null)} />
+
       <QuickActions
         mode={workDayConfig?.mode ?? "normal"}
         shiftType={workDayConfig?.shiftType}
@@ -252,18 +291,16 @@ export const DailyPage = ({ userId }: Props) => {
         onRepeatPreviousDay={handleRepeat}
       />
 
-      <TimeEntryForm editing={editing} onSave={handleSave} onCancelEdit={() => setEditing(null)} />
-
-      <Card className="space-y-3">
+      <Card className="space-y-3 rounded-2xl bg-blue-100/70">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-sm font-medium text-slate-700">Filtrar actividades</p>
+          <p className="font-[Manrope] text-lg font-bold text-slate-800">Filtrar actividades</p>
           <button
             type="button"
             onClick={() => {
               setFilterCategory("all");
               setFilterProject("all");
             }}
-            className="text-xs text-slate-500 underline"
+            className="text-xs font-semibold text-slate-500 underline"
           >
             Limpiar filtros
           </button>
@@ -296,6 +333,10 @@ export const DailyPage = ({ userId }: Props) => {
         </div>
       </Card>
 
+      <div>
+        <h3 className="font-[Manrope] text-2xl font-extrabold text-slate-900">Actividades de hoy</h3>
+      </div>
+
       <TimeEntryList
         entries={filteredEntries}
         onEdit={setEditing}
@@ -304,6 +345,7 @@ export const DailyPage = ({ userId }: Props) => {
         onTogglePlanned={handleTogglePlanned}
         onDelete={handleDelete}
       />
+      <p className="text-xs text-slate-500">Mostrando {filteredEntries.length} de {entries.length} actividades del dia.</p>
     </div>
   );
 };

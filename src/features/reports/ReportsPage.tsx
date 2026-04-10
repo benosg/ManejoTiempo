@@ -33,30 +33,30 @@ export const ReportsPage = ({ userId }: Props) => {
 
   return (
     <div className="space-y-4">
-      <Card className="space-y-2">
-        <h2 className="text-lg font-semibold text-slate-900">Reporte basico</h2>
-        <p className="text-sm text-slate-500">Distribucion de tiempo para entender carga y priorizacion.</p>
-        <p className="text-sm text-slate-700">Total semanal: {minutesToHoursLabel(sumMinutes(weekEntries))}</p>
+      <Card className="space-y-2 rounded-3xl p-6 md:p-8">
+        <h2 className="font-[Manrope] text-3xl font-extrabold text-slate-900">Reportes de carga</h2>
+        <p className="text-sm text-slate-600">Distribucion de tiempo para priorizacion, capacidad y mejora continua.</p>
+        <p className="text-sm font-semibold text-slate-700">Total semanal: {minutesToHoursLabel(sumMinutes(weekEntries))}</p>
       </Card>
 
-      <Card className="space-y-2">
-        <h3 className="text-sm font-semibold text-slate-700">Horas por categoria</h3>
+      <Card className="space-y-3 rounded-2xl bg-blue-50/55 p-5">
+        <h3 className="font-[Manrope] text-xl font-bold text-slate-800">Horas por categoria</h3>
         <BarChart rows={byCategory} />
       </Card>
 
-      <Card className="space-y-2">
-        <h3 className="text-sm font-semibold text-slate-700">Horas por proyecto</h3>
+      <Card className="space-y-3 rounded-2xl bg-blue-50/55 p-5">
+        <h3 className="font-[Manrope] text-xl font-bold text-slate-800">Horas por proyecto</h3>
         <BarChart rows={byProject} />
       </Card>
 
-      <Card className="grid gap-2 md:grid-cols-2">
-        <div>
-          <p className="text-xs text-slate-500">Planificado</p>
-          <p className="text-lg font-semibold text-emerald-700">{minutesToHoursLabel(plannedMinutes)}</p>
+      <Card className="grid gap-2 rounded-2xl bg-white p-5 md:grid-cols-2">
+        <div className="rounded-xl bg-emerald-50 p-4">
+          <p className="text-xs text-emerald-700">Planificado</p>
+          <p className="font-[Manrope] text-3xl font-extrabold text-emerald-700">{minutesToHoursLabel(plannedMinutes)}</p>
         </div>
-        <div>
-          <p className="text-xs text-slate-500">No planificado</p>
-          <p className="text-lg font-semibold text-amber-700">{minutesToHoursLabel(unplannedMinutes)}</p>
+        <div className="rounded-xl bg-amber-50 p-4">
+          <p className="text-xs text-amber-700">No planificado</p>
+          <p className="font-[Manrope] text-3xl font-extrabold text-amber-700">{minutesToHoursLabel(unplannedMinutes)}</p>
         </div>
       </Card>
     </div>

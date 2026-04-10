@@ -28,22 +28,27 @@ export const QuickActions = ({
   return (
     <Card className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm font-medium text-slate-700">Modalidad del dia:</span>
+        <span className="text-sm font-semibold text-slate-700">Modalidad del dia:</span>
         <Badge tone={mode === "turno" ? "warning" : "default"}>{modeLabel}</Badge>
-        <span className="text-xs text-slate-500">Asignado por jefatura (no editable por el colaborador)</span>
+        <span className="text-xs text-slate-500">Asignado por jefatura (solo lectura)</span>
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="secondary" onClick={onRepeatPreviousDay}>
+        <Button variant="secondary" className="min-w-60 justify-center" onClick={onRepeatPreviousDay}>
           Repetir registros de ayer
         </Button>
       </div>
 
       <div className="space-y-2">
-        <p className="text-sm font-medium text-slate-700">Sugerencias rapidas</p>
+        <p className="text-sm font-semibold text-slate-700">Sugerencias rapidas</p>
         <div className="flex flex-wrap gap-2">
           {suggestions.map((item) => (
-            <Button key={item.id} variant="ghost" className="border border-slate-200" onClick={() => onApplySuggestion(item)}>
+            <Button
+              key={item.id}
+              variant="ghost"
+              className="border border-blue-100 bg-blue-50/50 text-slate-700"
+              onClick={() => onApplySuggestion(item)}
+            >
               + {item.label}
             </Button>
           ))}
