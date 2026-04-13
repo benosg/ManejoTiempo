@@ -6,6 +6,7 @@ import type { TimeEntryCreateInput, TimeEntryUpdateInput } from "../services/int
 export const useTimeEntries = (userId: string) => {
   const [entries, setEntries] = useState<TimeEntry[]>([]);
   const [weekEntries, setWeekEntries] = useState<TimeEntry[]>([]);
+  const [monthEntries, setMonthEntries] = useState<TimeEntry[]>([]);
   const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
   const [workDayConfig, setWorkDayConfig] = useState<WorkDayConfig | null>(null);
 
@@ -23,6 +24,11 @@ export const useTimeEntries = (userId: string) => {
   const loadWeek = useCallback(async (weekStart: string) => {
     const data = await services.timeEntries.listByWeek(userId, weekStart);
     setWeekEntries(data);
+  }, [userId]);
+
+  const loadMonth = useCallback(async (month: string) => {
+    const data = await services.timeEntries.listByMonth(userId, month);
+    setMonthEntries(data);
   }, [userId]);
 
   const createEntry = useCallback(async (payload: Omit<TimeEntryCreateInput, "userId">) => {
@@ -53,10 +59,12 @@ export const useTimeEntries = (userId: string) => {
     () => ({
       entries,
       weekEntries,
+      monthEntries,
       suggestions,
       workDayConfig,
       loadDay,
       loadWeek,
+      loadMonth,
       createEntry,
       updateEntry,
       deleteEntry,
@@ -66,10 +74,12 @@ export const useTimeEntries = (userId: string) => {
     [
       entries,
       weekEntries,
+      monthEntries,
       suggestions,
       workDayConfig,
       loadDay,
       loadWeek,
+      loadMonth,
       createEntry,
       updateEntry,
       deleteEntry,

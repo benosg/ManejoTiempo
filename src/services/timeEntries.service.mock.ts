@@ -13,6 +13,15 @@ const inWeek = (entryDate: string, weekStartIso: string): boolean => {
   return d >= ws && d <= we;
 };
 
+const inMonth = (entryDate: string, month: string): boolean => {
+  const [year, monthIndex] = month.split("-").map(Number);
+  if (!year || !monthIndex) return false;
+  const date = fromIsoDate(entryDate).getTime();
+  const monthStart = new Date(year, monthIndex - 1, 1).getTime();
+  const monthEnd = new Date(year, monthIndex, 0).getTime();
+  return date >= monthStart && date <= monthEnd;
+};
+
 export class TimeEntriesServiceMock implements ITimeEntriesService {
   async listByDate(userId: string, date: string): Promise<TimeEntry[]> {
     return entriesStore
@@ -23,6 +32,12 @@ export class TimeEntriesServiceMock implements ITimeEntriesService {
   async listByWeek(userId: string, weekStart: string): Promise<TimeEntry[]> {
     return entriesStore
       .filter((item) => item.userId === userId && inWeek(item.date, weekStart))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  async listByMonth(userId: string, month: string): Promise<TimeEntry[]> {
+    return entriesStore
+      .filter((item) => item.userId === userId && inMonth(item.date, month))
       .sort((a, b) => a.date.localeCompare(b.date));
   }
 

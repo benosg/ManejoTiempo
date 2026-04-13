@@ -31,6 +31,7 @@ export interface TimeEntryUpdateInput {
 export interface ITimeEntriesService {
   listByDate(userId: string, date: string): Promise<TimeEntry[]>;
   listByWeek(userId: string, weekStart: string): Promise<TimeEntry[]>;
+  listByMonth(userId: string, month: string): Promise<TimeEntry[]>;
   create(input: TimeEntryCreateInput): Promise<TimeEntry>;
   update(entryId: string, patch: TimeEntryUpdateInput): Promise<TimeEntry>;
   remove(entryId: string): Promise<void>;
